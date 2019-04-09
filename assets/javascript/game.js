@@ -165,6 +165,61 @@ function googleSignIn(googleUser) {
   firebase.auth().signInWithCredential(credential);
 }
 
+//----------------------------------------------------CREATE NEW GAME------------------------------------------------------
+
+gameRef = firebase.database().ref('/games');
+
+function createGame() {
+  var user = firebase.auth().currentUser;
+  var currentGame = {
+    creator: {
+      uid: user.uid,
+      displayName: user.displayName
+    },
+    state: STATE.OPEN
+    };
+
+    gameRef.push().set(currentGame);
+  }
+
+  //----------------------------------------------------USER JOINS GAME------------------------------------------------------
+
+  function joinGame(key) {
+    var user = firebase.auth().currentUser;
+    var joinGameRef = gameRef.child(key);
+    joinGameRef.transction(function(game) {
+      if (!game.joiner) {
+        game.state = STATE.JOINED;
+        game.joiner = {
+          uid: user.uid,
+          displayName: user.displayName
+        }
+      }
+      return game;
+    })
+  }
+
+  //-------------Join Game Button Generated -----filter available games------
+
+  gameRef = firebase.database().ref('/games');
+  var openGames = gameRef.orderByChild('state').equalTo(STATE.OPEN);
+  openGames.on('child_added', function(snapshot) {
+    var data = snapshot.val();
+
+    if (data.creator.uid != firebase.auth().currentUser.uid) {
+      addJoinGameButton(snapshot.key, data);
+    }
+  });
+
+  //-------------Remove game after someone has joined----
+
+  openGames.on('child_removed', function(snapshot) {
+    var item = $('#' + snapshot.key);
+    if (item) {
+      item.remove();
+    }
+  });
+
 //----------------------------------------------------STATE CHANGE LISTENER--------------------------------------------------
 
 function authStateChangeListener(user) {
@@ -176,7 +231,22 @@ function authStateChangeListener(user) {
   }
 }
 
-//----------------------------------------------------CHAT BOX CODE--------------------------------------------------
+//----------------------------------------------------STATE CHANGE SWITCH CASE--------------------------------------------------
+
+function gamePlay(key) {
+  var joinGameRef = gameRef.child(key);
+  joinGameRef.on('value', function(snapshot) {
+    var game = snapshot.val();
+    switch (game.state) {
+      case STATE.JOINED: joinedGeme(gameRef, game); break;
+      case STATE.MAKESELECTION:
+      // case STATE.:
+
+    }
+  })
+}
+
+//----------------------------------------------------CHAT BOX CODE-------------------------------------------------------------
 
 function sendChat() {
   chatRef = firebase.database.ref('/chatBox');
@@ -187,3 +257,28 @@ function sendChat() {
     message: messageField
   });
 }
+//-------------CHAT EVENT LISTENER---------------
+
+chatRef = firebase.database().ref('/chatBox');
+
+chatRef.on('child_added', function(snapshot) {
+  var message = snapshot.val();
+  addChatMessage(message.name, message.message);
+});
+
+
+
+
+//--------------------------------SOURCES----------------------------------------------------------------------------
+
+//--------------------------FIREBASE DOCUMENTATION---------------------------------------------------------------------
+
+// https://firebase.google.com/docs/auth/web/manage-users 
+
+// MARK MANDEL SIMINAR
+// https://events.google.com/io2016/schedule?sid=16651ff7-0bef-e511-a517-00155d5066d7#day1/16651ff7-0bef-e511-a517-00155d5066d7
+
+// https://howtofirebase.com/firebase-authentication-for-web-d58aad62cf6d
+
+//RPS SINGLE PLAYER IN CLASS ASSIGNMENT
+//FRIDGE ASSIGNMENT FOR DYNAMICALLY GENERATED BUTTONS
