@@ -18,7 +18,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
-
+    
+    
     <!-- Bootstrap tooltips -->
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
@@ -45,8 +46,11 @@
 
         <div class="grid-container">
             <div class="item item-1" id="user-one-dash">
-                <div id="user-one-name">User 1</div>
-                <div id="user-one-score"></div>
+                <div id="user-one-name" class="user-name">User 1</div>
+                <div id="user-one-score" class="user-score"></div>
+                <div id="user-one-action-div" class='action-div player-action-div'>
+
+                </div>
             </div>
             <div class="item item-2" id="main-item">
                 <div id="heading">
@@ -55,7 +59,7 @@
                 <div id="commentary-div">
                     <h3>Let the Game Begin!</h3>
                 </div>
-                <div id="action-div">
+                <div id="main-action-div" class="action-div">
                     <!-- <button type="button" class="choices" id="rock">rock</button>
                     <button type="button" class="choices" id="paper">paper</button>
                     <button type="button" class="choices" id="scissors">scissors</button> -->
@@ -63,10 +67,16 @@
                 <div id="commentary-two-div"></div>
             </div>
             <div class="item item-3" id="user-two-dash">
-                <div id="user-two-name">User 2</div>
-                <div id="user-two-score"></div>
+                <div id="user-two-name" class="user-name">User 2</div>
+                <div id="user-two-score" class="user-score"></div>
+                <div id="user-two-action-div" class='action-div player-action-div'>
+
+                </div>
             </div>
         </div>
+
+
+
 
         <!-- Modal -->
         <div class="modal fade" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -86,13 +96,18 @@
                     <div class="modal-body mx-4">
                         <!--Body-->
                         <div class="md-form mb-5">
-                            <input type="email" id="Form-email1" class="form-control validate">
-                            <label data-error="wrong" data-success="right" for="Form-email1">Your email</label>
+                            <input type="text" id="display-name-input" class="form-control validate" placeholder="Display Name">
+                            <label data-error="wrong" data-success="right" for="display-name-input"></label>
+                        </div>
+
+                        <div class="md-form mb-5">
+                            <input type="email" id="Form-email1" class="form-control validate" placeholder="Your Email">
+                            <label data-error="wrong" data-success="right" for="Form-email1"></label>
                         </div>
 
                         <div class="md-form pb-3">
-                            <input type="password" id="Form-pass1" class="form-control validate">
-                            <label data-error="wrong" data-success="right" for="Form-pass1">Your password</label>
+                            <input type="password" id="Form-pass1" class="form-control validate" placeholder="Your password">
+                            <label data-error="wrong" data-success="right" for="Form-pass1"></label>
                             <p class="font-small blue-text d-flex justify-content-end">Forgot <a href="#"
                                     class="blue-text ml-1">
                                     Password?</a></p>

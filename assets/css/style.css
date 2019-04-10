@@ -23,6 +23,10 @@
     flex-direction: column;
   }
 
+  .item-2 {
+      text-align: center;
+  }
+
 #user-two-dash {
     grid-column: 3 / span 1;
     grid-row: 1 / span 2;
@@ -35,11 +39,32 @@
       border-radius: 50%;
   }
 
-  #action-div {
+  .action-div {
       display: flex;
       justify-content: space-between;
       margin: auto;
       width: 50%;
+  }
+
+  .player-action-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    align-items: center;
+}
+
+  .user-score {
+      height: 3rem;
+      border: solid red 1px;
+      margin-bottom: 5rem;
+      margin-top: 2rem;
+  }
+
+  #user-one-dash #user-two-dash {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   

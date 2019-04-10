@@ -124,7 +124,7 @@ function generateButtons() {
     selectionButton.addClass("choices");
     selectionButton.attr('id', userOne.userChoices[i])
     selectionButton.text(userOne.userChoices[i]);
-    $("#action-div").append(selectionButton);
+    $(".action-div").append(selectionButton);
   }
 
 };
@@ -136,16 +136,16 @@ generateButtons();
 
 //--------------------------------------------------------CREATE ACCOUNT------------------------------------------------------
 
-function createNewAccount() {
+$('#login-button').on('click', function createNewAccount() {
   var displayName = $('#display-name-input').val();
-  var email = $('#email-input').val();
-  var password = $('#password-input').val();
+  var email = $('Form-email1').val();
+  var password = $('#Form-pass1').val();
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(user) {
       user.UpdateProfile({displayName: displayName});
     });
-}
+});
 
 //-------------------------------------------------SIGN IN VIA PREVEIOSLY CREATED ACCOUNT-------------------------------
 
@@ -238,7 +238,7 @@ function gamePlay(key) {
   joinGameRef.on('value', function(snapshot) {
     var game = snapshot.val();
     switch (game.state) {
-      case STATE.JOINED: joinedGeme(gameRef, game); break;
+      case STATE.JOINED: joinedGame(gameRef, game); break;
       case STATE.MAKESELECTION:
       // case STATE.:
 
