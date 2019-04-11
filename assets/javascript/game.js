@@ -128,7 +128,7 @@ $('#rock').click(function () {
 //--------------------------------------------------------GENERATE RPS SELECTION BUTTONS------------------------------------------------------
 
 function generateCreatorButtons() {
-  for (i = 0; i < userOne._userChoices.length; i++) {
+  for (i = 0; i < creator._userChoices.length; i++) {
     selectionButton = $('<button>');
     selectionButton.addClass("choices");
     selectionButton.attr('id', creator._userChoices[i])
@@ -139,7 +139,7 @@ function generateCreatorButtons() {
 };
 
 function generateJoinerButtons() {
-  for (i = 0; i < userOne._userChoices.length; i++) {
+  for (i = 0; i < joiner._userChoices.length; i++) {
     selectionButton = $('<button>');
     selectionButton.addClass("choices");
     selectionButton.attr('id', creator._userChoices[i])
@@ -228,11 +228,11 @@ $("#new-game-button").on("click", function() {
     creator,
     state: STATE.OPEN
     }; creator._userCreator = true;
+    generateCreatorButtons();
     console.log(creator);
     console.log(user);
     $("#user-one-name").text(currentGame.creator.userName);
     gameRef.push().set(currentGame);
-    generateCreatorButtons();
 })
 
   //----------------------------------------------------USER JOINS GAME------------------------------------------------------
@@ -244,12 +244,12 @@ $("#new-game-button").on("click", function() {
       if (!game.joiner) {
         game.state = STATE.JOINED;
         game.joiner = joiner;
-      }
+      } generateJoinerButtons();
       joiner._userJoiner = true;
       console.log(joiner);
       return game;
     })
-  }; generateJoinerButtons();
+  }; 
 
     //---------------------------------------------------------GAME STATES------------------------------------------------------
 var STATE = {
@@ -317,7 +317,7 @@ function gamePlay(key) {
     var game = snapshot.val();
     switch (game.state) {
       case STATE.OPEN: createGame(); break;
-      case STATE.JOINED: joinedGame(gameRef, game); break;
+      case STATE.JOINED: joinGame(gameRef, game); break;
       case STATE.CREATOR_SELECT: generateButtons(); break;
       // case STATE.JOINER_SELECT: selectWinner(); break;
       case STATE.SELECT_WINNER: announceWinner(); break;
