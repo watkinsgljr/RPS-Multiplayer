@@ -158,21 +158,23 @@ $('#register-button').on('click', function createNewAccount() {
     });
     console.log(email);
     console.log(password);
+    console.log(user.uid);
 });
 
 //-------------------------------------------------SIGN IN VIA PREVEIOSLY CREATED ACCOUNT-------------------------------
 
-$("#login-button").on("click", function() {
+$("#login-button").on("click", function signInWithEmailAndPassword(email, password) {
+  var email = $('#modalLRInput10').val();
+  var password = $('#modalLRInput11').val();
 
-  function signInWithEmailAndPassword(email, password) {
-    var email = $('modalLRInput10').val();
-    var password = $('#modalLRInput11').val();
+  firebase.auth().signInWithEmailAndPassword(email, password);
+  console.log(email);
+  console.log(password);
+  console.log(user.uid);
+}
+
   
-    firebase.auth().signInWithEmailAndPassword(email, password);
-    console.log(email);
-    console.log(password);
-  }
-});
+);
 
 //----------------------------------------------------SIGN IN VIA GOOGLE--------------------------------------------------
 
