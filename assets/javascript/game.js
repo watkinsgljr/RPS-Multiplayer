@@ -191,6 +191,18 @@ function googleSignIn(googleUser) {
   firebase.auth().signInWithCredential(credential);
 }
 
+//----------------------------------------------------SIGN OUT--------------------------------------------------------------
+
+$("#log-out-button").on("click", function() {
+  firebase.auth().signOut()
+  .then(function() {
+    // Sign-out successful.
+  })
+  .catch(function(error) {
+    // An error happened
+  });
+}
+
 //----------------------------------------------------CREATE NEW GAME------------------------------------------------------
 
 $("#new-game-button").on("click", function() {
@@ -212,13 +224,11 @@ $("#new-game-button").on("click", function() {
   function joinGame(key) {
     var user = firebase.auth().currentUser;
     var joinGameRef = gameRef.child(key);
-    joinGameRef.transction(function(game) {
+    let joiner = new gameUser("userTwo")
+    joinGameRef.transction()(function(game) {
       if (!game.joiner) {
         game.state = STATE.JOINED;
-        game.joiner = {
-          uid: user.uid,
-          displayName: user.displayName
-        }
+        game.joiner = joiner;
       }
       return game;
     })
