@@ -260,7 +260,7 @@ var STATE = {
 function authStateChangeListener(user) {
   if (user) {
     chatBoxRef.onlogin();
-    Gamepad.onlogin();
+    Game.onlogin();
   } else { //signout
     window.location.reload();
   }
