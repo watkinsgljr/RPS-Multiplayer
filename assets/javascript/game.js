@@ -95,8 +95,7 @@ database.ref("/chatBox").set({
 
 
 
-// playerOneSelection;
-// playerTwoSelection;
+
 playerOnePoints = 0;
 playerTwoPoints = 0;
 ties = 0;
@@ -154,13 +153,16 @@ $('#register-button').on('click', function createNewAccount() {
   var email = $('#modalLRInput12').val();
   var password = $('#modalLRInput13').val();
   var repeatPassword = $('#modalLRInput14').val();
-  // var uid = user.uid;
   
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(user) {
       user.updateProfile({displayName: displayName});
     });
+    $('#modalLRInput15').val("");
+    $('#modalLRInput12').val("");
+    $('#modalLRInput13').val("");
+    $('#modalLRInput14').val("");
     $("#close-button").trigger("click");
     console.log(email);
     console.log(password);
@@ -172,6 +174,9 @@ $('#register-button').on('click', function createNewAccount() {
 $("#login-button").on("click", function signInWithEmailAndPassword(email, password) {
   var email = $('#modalLRInput10').val();
   var password = $('#modalLRInput11').val();
+  $('#modalLRInput10').val("")
+  $('#modalLRInput11').val("")
+  $("#close-button").trigger("click");
 
   firebase.auth().signInWithEmailAndPassword(email, password);
   console.log(email);
@@ -201,7 +206,7 @@ $("#log-out-button").on("click", function() {
   .catch(function(error) {
     // An error happened
   });
-}
+});
 
 //----------------------------------------------------CREATE NEW GAME------------------------------------------------------
 
