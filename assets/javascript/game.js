@@ -89,7 +89,9 @@ database.ref("/chatBox").set({
 
 currentUser = firebase.auth().currentUser;
 
-//----------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------GLOBAL VARIABLES------------------------------------------------------------
+
+let currentGame;
 
 
 
@@ -139,6 +141,7 @@ function loadDash() {
 //--------------------------------------------------------GENERATE RPS SELECTION BUTTONS------------------------------------------------------
 
 function generateCreatorButtons() {
+  let creator = currentGame.creator;
   for (i = 0; i < creator._userChoices.length; i++) {
     selectionButton = $('<button>');
     selectionButton.addClass("choices");
@@ -150,6 +153,7 @@ function generateCreatorButtons() {
 };
 
 function generateJoinerButtons() {
+  let joiner = currentGame.joiner;
   for (i = 0; i < joiner._userChoices.length; i++) {
     selectionButton = $('<button>');
     selectionButton.addClass("choices");
@@ -232,10 +236,10 @@ $("#log-out-button").on("click", function() {
 $("#new-game-button").on("click", function() {
   gameRef = firebase.database().ref('/games');
   var user = firebase.auth().currentUser;
-  displayName = user.displayName;
-  userid = user.uid;
-  let creator = new gameUser(displayName, userid);
-  var currentGame = {
+  // displayName = user.displayName;
+  // userid = user.uid;
+  let creator = new gameUser("Greg", 155);
+  currentGame = {
     creator,
     state: STATE.OPEN
     }; creator._userCreator = true;
