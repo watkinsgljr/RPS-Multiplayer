@@ -31,10 +31,7 @@ class gameUser {
   this._userChoices = ['rock', 'paper', 'scissors'],
   this._userSelection = null,
   this._userScore = 0,
-  this._userSelected = false,
-  this._selectedRock = false,
-  this._selectedPaper = false,
-  this._selectedScissors = false,
+  this._userSelion = null,
   this._userCreator = false,
   this._userJoiner = false
   // userScores: function () {},
@@ -100,18 +97,20 @@ currentUser = firebase.auth().currentUser;
 //----------------------------------------------------------BASE RPS DETERMINE WINNER LOGIC------------------------------------------------------
 
 function selectWinner() {
-  if (userOne.userSelected === true && userTwo.userSelected === true) {
+  let creator = currentGame.creator;
+  let joiner = currentGame.joiner;
+  if (creator._userSelected === true && joiner._userSelected === true) {
 
-    if ((playerOneSelection === "rock") || (playerOneSelection === "paper") || (playerOneSelection === "scissors")) {
+    if ((creator._userSelection === "rock") || (creator._userSelection === "paper") || (creator._userSelection === "scissors")) {
 
-      if ((playerOneSelection === "rock" && playerTwoSelection === "scissors") ||
-        (playerOneSelection === "scissors" && playerTwoSelection === "paper") ||
-        (playerOneSelection === "paper" && playerTwoSelection === "rock")) {
-        userOne.userScores();
-      } else if (playerOneSelection === playerTwoSelection) {
+      if ((creator._userSelection === "rock" && joiner._userSelection === "scissors") ||
+        (creator._userSelection === "scissors" && joiner._userSelection === "paper") ||
+        (creator._userSelection === "paper" && joiner._userSelection === "rock")) {
+        creator.userScores();
+      } else if (creator._userSelection === joiner._userSelection) {
         ties++;
       } else {
-        userTwo.userScores();
+        joiner.userScores();
       }
     }
   };
@@ -123,6 +122,18 @@ function selectWinner() {
 $('#rock').click(function () {
   $(this).css('transform', 'translateX(-50px)');
 });
+
+
+//-------------------------------------------------------------------LOAD DASH-------------------------------------------------------------------
+
+function loadDash() {
+  generateCreatorButtons();
+  generateJoinerButtons();
+  $("creator-score").text(currentGame.creator._userScore);
+  $("joiner-score").text(current.Game.joiner._userScore);
+  $("joiner-score").empty();
+}
+
 
 
 //--------------------------------------------------------GENERATE RPS SELECTION BUTTONS------------------------------------------------------
@@ -231,7 +242,7 @@ $("#new-game-button").on("click", function() {
     generateCreatorButtons();
     console.log(creator);
     console.log(user);
-    $("#user-one-name").text(currentGame.creator.userName);
+    // $("#user-one-name").text(currentGame.creator.userName);
     gameRef.push().set(currentGame);
 })
 
