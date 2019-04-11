@@ -243,6 +243,18 @@ var STATE = {
     }
   });
 
+  for (var i = 0; i < letters.length; i++) {
+
+    var joinGameBtn = $("<button>");
+    joinGameBtn.addClass("btn btn-default btn-rounded my-3");
+    joinGameBtn.attr("data-letter", letters[i]);
+    joinGameBtn.attr("id", "join-game-button");
+    joinGameBtn.text("JOIN GAME");
+    $(".item-2").append(letterBtn);
+    joinGameBtn.on("click", joinGame(key));
+
+  }
+
 
   //-------------Remove game after someone has joined----
 
