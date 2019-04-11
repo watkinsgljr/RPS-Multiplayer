@@ -154,8 +154,9 @@ $('#register-button').on('click', function createNewAccount() {
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(user) {
-      user.UpdateProfile({displayName: displayName});
+      user.updateProfile({displayName: displayName});
     });
+    $("#close-button").trigger("click");
     console.log(email);
     console.log(password);
     console.log(user.uid);
@@ -198,7 +199,7 @@ $("#new-game-button").on("click", function() {
     },
     state: STATE.OPEN
     };
-
+    $("#user-one-name").text(currentGame.creator.displayName);
     gameRef.push().set(currentGame);
   // }
 })
@@ -243,17 +244,16 @@ var STATE = {
     }
   });
 
-  for (var i = 0; i < letters.length; i++) {
+  function addJoinGameButton() {
 
     var joinGameBtn = $("<button>");
     joinGameBtn.addClass("btn btn-default btn-rounded my-3");
-    joinGameBtn.attr("data-letter", letters[i]);
     joinGameBtn.attr("id", "join-game-button");
     joinGameBtn.text("JOIN GAME");
-    $(".item-2").append(letterBtn);
+    $(".item-2").append(joinGameBtn);
     joinGameBtn.on("click", joinGame(key));
 
-  }
+  };
 
 
   //-------------Remove game after someone has joined----
@@ -268,7 +268,7 @@ var STATE = {
 
 
 //----------------------------------------------------STATE CHANGE LISTENER--------------------------------------------------
-
+firebase.auth().onAuthStateChanged(authStateChangeListener);
 function authStateChangeListener(user) {
   if (user) {
     chatBoxRef.onlogin();
