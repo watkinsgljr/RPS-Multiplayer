@@ -22,34 +22,39 @@ var userTwoRef = database.ref("/userTwo");
 var chatBoxRef = database.ref("/chatBox");
 
 
-//----------------------------------------------------------USER OBJECTS------------------------------------------------------
+//----------------------------------------------------------USER CLASS------------------------------------------------------
 
-
-userOne = {
-  userName: 'Player 1',
-  userChoices: ['rock', 'paper', 'scissors'],
-  userSelection: null,
-  userScore: 0,
-  userSelected: false,
-  selectedRock: false,
-  selectedPaper: false,
-  selectedScissors: false,
+class gameUser {
+  constructor(userName) {
+  this._userName = userName,
+  this._userChoices = ['rock', 'paper', 'scissors'],
+  this._userSelection = null,
+  this._userScore = 0,
+  this._userSelected = false,
+  this._selectedRock = false,
+  this._selectedPaper = false,
+  this._selectedScissors = false,
+  this._userCreator = false,
+  this._userJoiner = false
   // userScores: function () {},
   // userWins: function () {},
+  }
 };
 
-userTwo = {
-  userName: 'Player 2',
-  userChoices: ['rock', 'paper', 'scissors'],
-  userSelection: null,
-  userScore: 0,
-  userSelected: false,
-  selectedRock: false,
-  selectedPaper: false,
-  selectedScissors: false,
-  // userScores: function () {},
-  // userWins: function () {},
-};
+let userOne = new gameUser("userOne");
+
+// joinerClass = {
+//   userName: 'Player 2',
+//   userChoices: ['rock', 'paper', 'scissors'],
+//   userSelection: null,
+//   userScore: 0,
+//   userSelected: false,
+//   selectedRock: false,
+//   selectedPaper: false,
+//   selectedScissors: false,
+//   userScores: function () {},
+//   userWins: function () {},
+// };
 
 
 //----------------------------------------------------------SET DATABASE------------------------------------------------------
@@ -127,11 +132,11 @@ $('#rock').click(function () {
 //--------------------------------------------------------GENERATE RPS SELECTION BUTTONS------------------------------------------------------
 
 function generateButtons() {
-  for (i = 0; i < userOne.userChoices.length; i++) {
+  for (i = 0; i < userOne._userChoices.length; i++) {
     selectionButton = $('<button>');
     selectionButton.addClass("choices");
-    selectionButton.attr('id', userOne.userChoices[i])
-    selectionButton.text(userOne.userChoices[i]);
+    selectionButton.attr('id', userOne._userChoices[i])
+    selectionButton.text(userOne._userChoices[i]);
     $(".action-div").append(selectionButton);
   }
 
@@ -192,13 +197,11 @@ $("#new-game-button").on("click", function() {
   gameRef = firebase.database().ref('/games');
 // function createGame() {
   var user = firebase.auth().currentUser;
+  let creator = new gameUser("userOne");
   var currentGame = {
-    creator: {
-      uid: user.uid,
-      displayName: user.displayName
-    },
+    creator,
     state: STATE.OPEN
-    };
+    }; console.log(creator);
     $("#user-one-name").text(currentGame.creator.displayName);
     gameRef.push().set(currentGame);
   // }
@@ -244,8 +247,7 @@ var STATE = {
     }
   });
 
-  function addJoinGameButton() {
-
+  function addJoinGameButton(key, data) {
     var joinGameBtn = $("<button>");
     joinGameBtn.addClass("btn btn-default btn-rounded my-3");
     joinGameBtn.attr("id", "join-game-button");
@@ -268,15 +270,15 @@ var STATE = {
 
 
 //----------------------------------------------------STATE CHANGE LISTENER--------------------------------------------------
-firebase.auth().onAuthStateChanged(authStateChangeListener);
-function authStateChangeListener(user) {
-  if (user) {
-    chatBoxRef.onlogin();
-    Game.onlogin();
-  } else { //signout
-    window.location.reload();
-  }
-}
+// firebase.auth().onAuthStateChanged(authStateChangeListener);
+// function authStateChangeListener(user) {
+//   if (user) {
+//     chatBoxRef.onlogin();
+//     Game.onlogin();
+//   } else { //signout
+//     window.location.reload();
+//   }
+// }
 
 //----------------------------------------------------STATE CHANGE SWITCH CASE--------------------------------------------------
 
