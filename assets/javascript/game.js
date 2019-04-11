@@ -257,21 +257,23 @@ var STATE = {
   var openGames = gameRef.orderByChild('state').equalTo(STATE.OPEN);
   openGames.on('child_added', function(snapshot) {
     var data = snapshot.val();
+    var gameKey = data.key;
 
     if (data.creator.uid != firebase.auth().currentUser.uid) {
-      addJoinGameButton(snapshot.key, data);
+      addJoinGameButton();
     }
+    function addJoinGameButton() {
+      var joinGameBtn = $("<button>");
+      joinGameBtn.addClass("btn btn-default btn-rounded my-3 join-game-button");
+      joinGameBtn.attr("id", gameKey);
+      joinGameBtn.text("JOIN GAME");
+      $(".item-2").append(joinGameBtn);
+      joinGameBtn.on("click", joinGame(gameKey));
+  
+    };
   });
 
-  function addJoinGameButton(key, data) {
-    var joinGameBtn = $("<button>");
-    joinGameBtn.addClass("btn btn-default btn-rounded my-3");
-    joinGameBtn.attr("id", "join-game-button");
-    joinGameBtn.text("JOIN GAME");
-    $(".item-2").append(joinGameBtn);
-    joinGameBtn.on("click", joinGame(key));
 
-  };
 
 
   //-------------Remove game after someone has joined----
