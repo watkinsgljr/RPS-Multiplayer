@@ -92,7 +92,7 @@ ties = 0;
 
 //----------------------------------------------------------BASE RPS DETERMINE WINNER LOGIC------------------------------------------------------
 
-
+selectWinner()
 if (userOne.userSelected === true && userTwo.userSelected === true) {
 
   if ((playerOneSelection === "rock") || (playerOneSelection === "paper") || (playerOneSelection === "scissors")) {
@@ -137,23 +137,29 @@ generateButtons();
 //--------------------------------------------------------CREATE ACCOUNT------------------------------------------------------
 
 $('#login-button').on('click', function createNewAccount() {
-  var displayName = $('#display-name-input').val();
-  var email = $('Form-email1').val();
-  var password = $('#Form-pass1').val();
+  var displayName = $('#modalLRInput15').val();
+  var email = $('#modalLRInput12').val();
+  var password = $('#modalLRInput13').val();
+  var repeatPassword = $('#modalLRInput14').val();
+  
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(user) {
       user.UpdateProfile({displayName: displayName});
     });
+    console.log(email);
+    console.log(password);
 });
 
 //-------------------------------------------------SIGN IN VIA PREVEIOSLY CREATED ACCOUNT-------------------------------
 
 function signInWithEmailAndPassword() {
-  var email = $('#email-input').val();
-  var password = $('#password-input').val();
+  var email = $('modalLRInput10').val();
+  var password = $('#modalLRInput11').val();
 
   firebase.auth().signInWithEmailAndPassword(email, password);
+  console.log(email);
+  console.log(password);
 }
 
 //----------------------------------------------------SIGN IN VIA GOOGLE--------------------------------------------------
@@ -220,6 +226,17 @@ function createGame() {
     }
   });
 
+  //---------------------------------------------------------GAME STATES------------------------------------------------------
+var STATE = {
+  OPEN: 1,
+  JOINED: 2,
+  CREATOR_SELECT: 3,
+  JOINER_SELECT: 4,
+  SELECT_WINNER: 5,
+  GAME_OVER: 6
+};
+
+
 //----------------------------------------------------STATE CHANGE LISTENER--------------------------------------------------
 
 function authStateChangeListener(user) {
@@ -238,10 +255,11 @@ function gamePlay(key) {
   joinGameRef.on('value', function(snapshot) {
     var game = snapshot.val();
     switch (game.state) {
+      case STATE.OPEN: createGame(); break;
       case STATE.JOINED: joinedGame(gameRef, game); break;
-      case STATE.MAKESELECTION:
-      // case STATE.:
-
+      case STATE.CREATOR_SELECT: generateButtons(); break;
+      case STATE.JOINER_SELECT: selectWinner(); break;
+      case STATE.SELECT_WINNER: announceWinner(); break;
     }
   })
 }
