@@ -1,5 +1,11 @@
 
 
+$(document).ready(function() {
+
+
+
+
+
 //----------------------------------------------------------INITIALIZE DATABASE------------------------------------------------------
 var config = {
   apiKey: "AIzaSyDmlxzVgqsttBne_yPiYtqXR8MK3exXRLE",
@@ -92,22 +98,24 @@ ties = 0;
 
 //----------------------------------------------------------BASE RPS DETERMINE WINNER LOGIC------------------------------------------------------
 
-selectWinner()
-if (userOne.userSelected === true && userTwo.userSelected === true) {
+function selectWinner() {
+  if (userOne.userSelected === true && userTwo.userSelected === true) {
 
-  if ((playerOneSelection === "rock") || (playerOneSelection === "paper") || (playerOneSelection === "scissors")) {
+    if ((playerOneSelection === "rock") || (playerOneSelection === "paper") || (playerOneSelection === "scissors")) {
 
-    if ((playerOneSelection === "rock" && playerTwoSelection === "scissors") ||
-      (playerOneSelection === "scissors" && playerTwoSelection === "paper") ||
-      (playerOneSelection === "paper" && playerTwoSelection === "rock")) {
-      userOne.userScores();
-    } else if (playerOneSelection === playerTwoSelection) {
-      ties++;
-    } else {
-      userTwo.userScores();
+      if ((playerOneSelection === "rock" && playerTwoSelection === "scissors") ||
+        (playerOneSelection === "scissors" && playerTwoSelection === "paper") ||
+        (playerOneSelection === "paper" && playerTwoSelection === "rock")) {
+        userOne.userScores();
+      } else if (playerOneSelection === playerTwoSelection) {
+        ties++;
+      } else {
+        userTwo.userScores();
+      }
     }
-  }
-};
+  };
+}
+
 
 //-------------------------------------------------------CLICK FUNCTION (RPS SELECTION)---------------------------------------------------------
 
@@ -136,11 +144,12 @@ generateButtons();
 
 //--------------------------------------------------------CREATE ACCOUNT------------------------------------------------------
 
-$('#login-button').on('click', function createNewAccount() {
+$('#register-button').on('click', function createNewAccount() {
   var displayName = $('#modalLRInput15').val();
   var email = $('#modalLRInput12').val();
   var password = $('#modalLRInput13').val();
   var repeatPassword = $('#modalLRInput14').val();
+  // var uid = user.uid;
   
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -153,14 +162,17 @@ $('#login-button').on('click', function createNewAccount() {
 
 //-------------------------------------------------SIGN IN VIA PREVEIOSLY CREATED ACCOUNT-------------------------------
 
-function signInWithEmailAndPassword() {
-  var email = $('modalLRInput10').val();
-  var password = $('#modalLRInput11').val();
+$("#login-button").on("click", function() {
 
-  firebase.auth().signInWithEmailAndPassword(email, password);
-  console.log(email);
-  console.log(password);
-}
+  function signInWithEmailAndPassword(email, password) {
+    var email = $('modalLRInput10').val();
+    var password = $('#modalLRInput11').val();
+  
+    firebase.auth().signInWithEmailAndPassword(email, password);
+    console.log(email);
+    console.log(password);
+  }
+});
 
 //----------------------------------------------------SIGN IN VIA GOOGLE--------------------------------------------------
 
@@ -173,9 +185,9 @@ function googleSignIn(googleUser) {
 
 //----------------------------------------------------CREATE NEW GAME------------------------------------------------------
 
-gameRef = firebase.database().ref('/games');
-
-function createGame() {
+$("#new-game-button").on("click", function() {
+  gameRef = firebase.database().ref('/games');
+// function createGame() {
   var user = firebase.auth().currentUser;
   var currentGame = {
     creator: {
@@ -186,7 +198,8 @@ function createGame() {
     };
 
     gameRef.push().set(currentGame);
-  }
+  // }
+})
 
   //----------------------------------------------------USER JOINS GAME------------------------------------------------------
 
@@ -205,7 +218,18 @@ function createGame() {
     })
   }
 
+    //---------------------------------------------------------GAME STATES------------------------------------------------------
+var STATE = {
+  OPEN: 1,
+  JOINED: 2,
+  CREATOR_SELECT: 3,
+  JOINER_SELECT: 4,
+  SELECT_WINNER: 5,
+  GAME_OVER: 6
+};
+
   //-------------Join Game Button Generated -----filter available games------
+
 
   gameRef = firebase.database().ref('/games');
   var openGames = gameRef.orderByChild('state').equalTo(STATE.OPEN);
@@ -217,6 +241,7 @@ function createGame() {
     }
   });
 
+
   //-------------Remove game after someone has joined----
 
   openGames.on('child_removed', function(snapshot) {
@@ -226,15 +251,6 @@ function createGame() {
     }
   });
 
-  //---------------------------------------------------------GAME STATES------------------------------------------------------
-var STATE = {
-  OPEN: 1,
-  JOINED: 2,
-  CREATOR_SELECT: 3,
-  JOINER_SELECT: 4,
-  SELECT_WINNER: 5,
-  GAME_OVER: 6
-};
 
 
 //----------------------------------------------------STATE CHANGE LISTENER--------------------------------------------------
@@ -258,7 +274,7 @@ function gamePlay(key) {
       case STATE.OPEN: createGame(); break;
       case STATE.JOINED: joinedGame(gameRef, game); break;
       case STATE.CREATOR_SELECT: generateButtons(); break;
-      case STATE.JOINER_SELECT: selectWinner(); break;
+      // case STATE.JOINER_SELECT: selectWinner(); break;
       case STATE.SELECT_WINNER: announceWinner(); break;
     }
   })
@@ -277,13 +293,16 @@ function sendChat() {
 }
 //-------------CHAT EVENT LISTENER---------------
 
-chatRef = firebase.database().ref('/chatBox');
+// chatRef = firebase.database().ref('/chatBox');
 
-chatRef.on('child_added', function(snapshot) {
-  var message = snapshot.val();
-  addChatMessage(message.name, message.message);
+// chatRef.on('child_added', function(snapshot) {
+//   var message = snapshot.val();
+//   addChatMessage(message.name, message.message);
+// });
+
+
+
 });
-
 
 
 

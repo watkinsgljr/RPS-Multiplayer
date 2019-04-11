@@ -8,27 +8,7 @@
     <link href="./assets/css/reset.css" rel="stylesheet" type="text/css">
     <link href="./assets/css/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
-    <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Material Design Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
-
-
-    <!-- Bootstrap tooltips -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+  
 
 
 
@@ -39,14 +19,16 @@
 
     <div class="login-button-div">
         <a href="" class="btn btn-default btn-rounded my-3" data-toggle="modal" data-target="#modalLRForm">
-            LogIn/Register ToPlay
+            LogIn/Register To Play
+        </a>
+    </div>
+    <div class="create-game-button">
+        <a href="" class="btn btn-default btn-rounded my-3" id="new-game-button" data-toggle="modal">
+            Create Game
         </a>
     </div>
 
-    <!-- <div class="login-button-div">
-        <a href="" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#elegantModalForm">Log In To
-            Play</a>
-    </div> -->
+
 
     <div id="main-container">
 
@@ -131,7 +113,7 @@
                                     </div>
                                     <div class="text-center mt-2">
                                         <button class="btn btn-info">Log in <i class="fas fa-sign-in ml-1"></i></button>
-                                        <button type="button" class="btn btn-white btn-rounded z-depth-1a"><i
+                                        <button type="button" id="login-button" class="btn btn-white btn-rounded z-depth-1a"><i
                                                 class="fab fa-google-plus-g"></i>
                                         </button>
                                     </div>
@@ -182,7 +164,7 @@
                                     </div>
 
                                     <div class="text-center form-sm mt-2">
-                                        <button class="btn btn-info">Sign up <i
+                                        <button class="btn btn-info" id="register-button">Sign up <i
                                                 class="fas fa-sign-in ml-1"></i></button>
                                     </div>
 
@@ -209,10 +191,6 @@
 
 
 
-        <!-- <div class="login-button-div">
-            <a href="" class="btn btn-default btn-rounded" data-toggle="modal" data-target="#elegantModalForm">Log In To
-                Play</a>
-        </div> -->
 
 
 
@@ -223,34 +201,25 @@
 
     </div>
 
-
-    <!-- <div id="make-selection-container">
-
-
-    </div>
-
-
-
-    <div id="show-outcome-container">
-
-
-    </div>
-
-
-
-
-    <div id="game-over-container">
-
-
-    </div> -->
-
-
-
-
-
-
-
-
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
+    <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/css/mdb.min.css" rel="stylesheet">
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+        crossorigin="anonymous"></script>
     <script src="./assets/javascript/game.js"></script>
 </body>
 
