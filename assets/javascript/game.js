@@ -218,8 +218,9 @@ $("#new-game-button").on("click", function() {
   var currentGame = {
     creator,
     state: STATE.OPEN
-    }; console.log(creator);
-    $("#user-one-name").text(currentGame.creator.displayName);
+    }; creator._userCreator = true;
+    console.log(creator);
+    $("#user-one-name").text(currentGame.creator.userName);
     gameRef.push().set(currentGame);
   // }
 })
