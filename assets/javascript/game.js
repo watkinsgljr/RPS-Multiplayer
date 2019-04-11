@@ -25,8 +25,9 @@ var chatBoxRef = database.ref("/chatBox");
 //----------------------------------------------------------USER CLASS------------------------------------------------------
 
 class gameUser {
-  constructor(userName) {
-  this._userName = userName,
+  constructor(displayName, uid) {
+  this._uid = uid,  
+  this._displayName = displayName,
   this._userChoices = ['rock', 'paper', 'scissors'],
   this._userSelection = null,
   this._userScore = 0,
@@ -89,16 +90,12 @@ database.ref("/chatBox").set({
 });
 
 
-
+currentUser = firebase.auth().currentUser;
 
 //----------------------------------------------------------------------------------------------------------------
 
 
 
-
-playerOnePoints = 0;
-playerTwoPoints = 0;
-ties = 0;
 
 //----------------------------------------------------------BASE RPS DETERMINE WINNER LOGIC------------------------------------------------------
 
@@ -130,18 +127,28 @@ $('#rock').click(function () {
 
 //--------------------------------------------------------GENERATE RPS SELECTION BUTTONS------------------------------------------------------
 
-function generateButtons() {
+function generateCreatorButtons() {
   for (i = 0; i < userOne._userChoices.length; i++) {
     selectionButton = $('<button>');
     selectionButton.addClass("choices");
-    selectionButton.attr('id', userOne._userChoices[i])
-    selectionButton.text(userOne._userChoices[i]);
-    $(".action-div").append(selectionButton);
+    selectionButton.attr('id', creator._userChoices[i])
+    selectionButton.text(creator._userChoices[i]);
+    $("#creator-action-div").append(selectionButton);
   }
 
 };
 
-generateButtons();
+function generateJoinerButtons() {
+  for (i = 0; i < userOne._userChoices.length; i++) {
+    selectionButton = $('<button>');
+    selectionButton.addClass("choices");
+    selectionButton.attr('id', creator._userChoices[i])
+    selectionButton.text(creator._userChoices[i]);
+    $("#creator-action-div").append(selectionButton);
+  }
+
+};
+
 
 
 //--------------------------------------------------------AUTHENTICATION------------------------------------------------------
@@ -157,6 +164,7 @@ $('#register-button').on('click', function createNewAccount() {
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(function(user) {
+      user = firebase.auth().currentUser;
       user.updateProfile({displayName: displayName});
     });
     $('#modalLRInput15').val("");
@@ -166,7 +174,7 @@ $('#register-button').on('click', function createNewAccount() {
     $("#close-button").trigger("click");
     console.log(email);
     console.log(password);
-    console.log(user.uid);
+    console.log(user);
 });
 
 //-------------------------------------------------SIGN IN VIA PREVEIOSLY CREATED ACCOUNT-------------------------------
@@ -181,7 +189,7 @@ $("#login-button").on("click", function signInWithEmailAndPassword(email, passwo
   firebase.auth().signInWithEmailAndPassword(email, password);
   console.log(email);
   console.log(password);
-  console.log(user.uid);
+  console.log(user);
 }
 
   
@@ -212,33 +220,36 @@ $("#log-out-button").on("click", function() {
 
 $("#new-game-button").on("click", function() {
   gameRef = firebase.database().ref('/games');
-// function createGame() {
   var user = firebase.auth().currentUser;
-  let creator = new gameUser("userOne");
+  displayName = user.displayName;
+  userid = user.uid;
+  let creator = new gameUser(displayName, userid);
   var currentGame = {
     creator,
     state: STATE.OPEN
     }; creator._userCreator = true;
     console.log(creator);
+    console.log(user);
     $("#user-one-name").text(currentGame.creator.userName);
     gameRef.push().set(currentGame);
-  // }
+    generateCreatorButtons();
 })
 
   //----------------------------------------------------USER JOINS GAME------------------------------------------------------
-
-  function joinGame(key) {
-    var user = firebase.auth().currentUser;
-    var joinGameRef = gameRef.child(key);
-    let joiner = new gameUser("userTwo")
+  var user = firebase.auth().currentUser;
+  function joinGame(gameKey) {
+    var joinGameRef = gameRef.child(gameKey);
+    let joiner = new gameUser(user.displayName, user.uid)
     joinGameRef.transction()(function(game) {
       if (!game.joiner) {
         game.state = STATE.JOINED;
         game.joiner = joiner;
       }
+      joiner._userJoiner = true;
+      console.log(joiner);
       return game;
     })
-  }
+  }; generateJoinerButtons();
 
     //---------------------------------------------------------GAME STATES------------------------------------------------------
 var STATE = {
@@ -313,6 +324,14 @@ function gamePlay(key) {
     }
   })
 }
+
+
+  //---------------------------------------------------------CREATOR SELECTION------------------------------------------------------
+
+
+
+
+
 
 //----------------------------------------------------CHAT BOX CODE-------------------------------------------------------------
 
